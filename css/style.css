@@ -1,3 +1,14 @@
+/*Animation*/
+@keyframes modalopen {
+  from {
+    opacity: 0;
+    transform: translateY(-150px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 :root {
   --font-default: "DM Sans", Arial, Helvetica, sans-serif;
   --font-slab: var(--font-default);
@@ -14,7 +25,6 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -29,7 +39,7 @@ p {
 img {
   padding-right: 1rem;
 }
-
+/* header*/
 .topnav {
   overflow: hidden;
   margin: 3.5%;
@@ -58,47 +68,8 @@ img {
   border-radius: 15px;
 }
 
-.topnav a.active {
-  background-color: #ff0000;
-  color: #ffffff;
-  border-radius: 15px;
-}
-
 .topnav .icon {
   display: none;
-}
-
-@media screen and (max-width: 768px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .topnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-}
-
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
-  }
 } 
 
 main {
@@ -111,8 +82,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -186,6 +155,7 @@ main {
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
+  height: 835px;
 }
 
 label {
@@ -210,12 +180,12 @@ input {
 }
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 0.5em;
   color: #e54858;
   display: block;
   margin-top: 7px;
   margin-bottom: 7px;
-  text-align: right;
+  text-align: left;
   line-height: 0.3;
   opacity: 0;
   transition: 0.3s;
@@ -473,6 +443,34 @@ input[data-error]::after {
 .hero-section > .btn-signup {
   display: none;
 }
+#confirmation {
+  /* display: none; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: inherit;
+  text-align: center;
+}
+
+#confirmation p {
+  font-weight: 400;
+  font-size :36px;
+  height: 400px;
+  margin-top: 40vh;
+}
+
+#confirmation .close {
+  position: initial;
+  width: initial;
+  height: initial;
+  transform: none;
+}
+#confirmation .close::before {
+  content: none;
+}
+#confirmation .close::after {
+  content: none;
+}
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
@@ -517,13 +515,34 @@ footer {
   }
 }
 
-@keyframes modalopen {
-  from {
-    opacity: 0;
-    transform: translateY(-150px);
+@media screen and (max-width: 768px) {
+  /*header*/
+  .topnav a {
+    display: none;  
   }
-  to {
-    opacity: 1;
+
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+
+  .topnav.responsive {
+    position: relative;
+  }
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
   }
 }
 
+ @media screen and (max-width: 540px) {  
+  .topnav a.icon {
+    margin-top: -15px;
+  }
+}
