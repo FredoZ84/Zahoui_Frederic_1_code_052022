@@ -1,4 +1,4 @@
-let     Input = {
+let Input = {
     firstName: document.getElementById("first"),
     lastName: document.getElementById("last"),
     email: document.getElementById("email"),
@@ -8,13 +8,13 @@ let     Input = {
     termsOfUse: document.getElementById('checkbox1')            
 }        
 
-const   form = document.getElementById("form"),
-confirmation = document.getElementById("confirmation"),
-Regex = {
-    name: /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/,
-    mail: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    date: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
-};
+const form = document.getElementById("form"),
+      confirmation = document.getElementById("confirmation"),
+    Regex = {
+        name: /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/,
+        mail: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        date: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
+    };
 
 Input.locations.type = "radio";
 
@@ -23,6 +23,8 @@ for (let property in Input) {
     dataErrorCondition(Input[property])
     Input[property].addEventListener(Input[property].propertyEvent, check);   
 }
+
+form.addEventListener('submit', validate);
 
 
 // Attribut l'evenement correspondant en fonction du type de l'input
@@ -87,11 +89,20 @@ function conditionOfCheck(condition) {// put the negative condition
 
 // Element verification
 function check(e) {    
-    let toTest = e.target.value,
-        type = e.target.type,
-        element = e.target,
-        result;
-    
+    let toTest,type, element, result;    
+
+    if (e.type == "focusout" || e.type == "change") {
+        toTest = e.target.value;
+        type = e.target.type;
+        element = e.target;
+    } else {
+        if (e == Input.locations) {
+            e = Input.locations.children[0];
+        }
+        toTest = e.value;
+        type = e.type;
+        element = e;        
+    }   
 
     // en fonction du de l'input on vérifie si la saisie est juste
     switch (type) {
@@ -146,10 +157,40 @@ function checkLocations(e) {
 }
 
 function checkCheckBox(e) {
-    let toTest = e.target.checked,
-        result;
+    let toTest,result;
+
+    if (e.type == "change") {
+        toTest =  e.target.checked;
+    } else {
+        toTest = e.checked;
+    }
 
     result = conditionOfCheck(!toTest);
 
     return result;
+}
+
+// Checking items 
+function validate(e) {
+    e.preventDefault();
+    let rejectionCounter = 0; // compteur de refus
+
+    // seconde verification des entrées du Formulaires
+    for (let property in Input) {           
+        if (check(Input[property])) {
+            Input[property].validation = true ;
+        } else {
+            Input[property].validation = false; 
+            rejectionCounter++
+        }      
+    }
+    
+    // Si il y a un 
+    if (rejectionCounter > 0) {
+        console.log("saisir ou coriger l'information demandée");
+    } else {
+        form.style.display ="none";
+        confirmation.style.display = "block";
+        sessionStorage.setItem("validate","true");
+    }
 }
