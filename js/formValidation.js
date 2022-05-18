@@ -11,7 +11,7 @@ let Input = {
 const   form = document.getElementById("form"),
         confirmation = document.getElementById("confirmation"),
         Regex = {
-            name: /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/,
+            name: /^[a-zA-ZÀ-ÖØ-öø-ÿ-]+$/,
             mail: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             date: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
         };
