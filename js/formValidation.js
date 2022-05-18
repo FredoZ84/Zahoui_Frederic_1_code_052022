@@ -23,15 +23,20 @@ participationNumber.addEventListener("focusout", checkTournamentsQuantity);
 locations.addEventListener("change", checkLocations);
 termsOfUse.addEventListener("change",checkCheckBox);
 
+// choice of condition of check function
+function conditionOfCheck(condition) {// put the negative condition
+    if (condition) {
+        return false;        
+    } else {
+        return true;       
+    }
+}
+
 function checkName(e) {
     let toTest = e.target.value,
         result;
-
-    if (toTest.length < 2 || toTest ===" " || !toTest.match(Regex.name)) {
-        result = false;
-    } else {
-        result = true;
-    }
+    
+    result = conditionOfCheck(toTest.length < 2 || toTest ===" "|| !toTest.match(Regex.name));
 
     console.log(result);
 
@@ -41,27 +46,20 @@ function checkName(e) {
 function checkMail(e) {
     let toTest = e.target.value,
         result;
-
-    if (!toTest.match(Regex.mail)) {
-        result = false;
-    } else {
-        result = true;
-    }
-
+        
+    result = conditionOfCheck(!toTest.match(Regex.mail)); 
+    
     console.log(result);
 
     return result;
 }
 
+
 function checkBirthdate(e) {
     let toTest = e.target.value,
-        result;
+    result;
 
-    if (!toTest.match(Regex.date) ) {
-        result = false;
-    } else {
-        result = true;
-    }
+    result = conditionOfCheck(toTest.length !== 10);
 
     console.log(result);
 
@@ -70,14 +68,10 @@ function checkBirthdate(e) {
 
 function checkTournamentsQuantity(e) {
     let toTest = e.target.value,
-        result;
+    result;
 
-    if (toTest.length === 0 || isNaN(toTest) === true || toTest < 0|| toTest > 99) {
-        result = false;
-    } else {
-        result = true;
-    }
-    
+    result = conditionOfCheck(toTest.length === 0 || isNaN(toTest) === true || toTest < 0|| toTest > 99);
+
     console.log(result);
 
     return result;
@@ -96,11 +90,7 @@ function checkLocations(e) {
         }
     }
     
-    if (selectedSearch !== 1) {
-        result = false;
-    } else {
-        result = true;
-    }
+    result = conditionOfCheck(selectedSearch !== 1);    
 
     console.log(result);
 
@@ -108,15 +98,11 @@ function checkLocations(e) {
 }
 
 function checkCheckBox(e) {
-    let toTest = e.target.checked,        
+    let toTest = e.target.checked,
         result;
 
-    if (!toTest) {
-        result = false;
-    } else {
-        result = true;
-    }
-    
+    result = conditionOfCheck(!toTest);
+
     console.log(result);
 
     return result;
