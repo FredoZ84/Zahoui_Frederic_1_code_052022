@@ -16,15 +16,65 @@ Regex = {
     date: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
 };
 
+Input.locations.type = "radio";
 
 for (let property in Input) {
-    if ([property] !== locations || [property] !== termsOfUse ) {
-        Input[property].addEventListener("focusout", check);
+    eventCondition(Input[property])
+    dataErrorCondition(Input[property])
+    Input[property].addEventListener(Input[property].propertyEvent, check);   
+}
+
+
+// Attribut l'evenement correspondant en fonction du type de l'input
+function eventCondition(e) {
+    if (e.type == "radio" || e.type == "checkbox" ) {
+        e.propertyEvent = "change";
+    } else {
+        e.propertyEvent = "focusout";
     }
 }
 
-Input.locations.addEventListener("change", check);
-Input.termsOfUse.addEventListener("change", check);
+// Condition d'attribution des propriété data-error &  data-error-visible en fonction du type de l'input
+function dataErrorCondition(e) {
+
+    if (e.type == "radio") {
+        e.setAttribute("data-error", errorMessage(e.type));
+        e.setAttribute("data-error-visible", false);
+    } else {
+        e.parentNode.setAttribute("data-error", errorMessage(e.type));
+        e.parentNode.setAttribute("data-error-visible", false);
+    }
+}
+
+// Renvoi le message d'erreur correspondant
+function errorMessage(type) {
+    let info;
+
+    switch (type) {
+        case "text": // for firstname & lastname
+            info = "Veuillez saisir 2 caractères minimum";
+        break;
+        case "email":              
+            info = "Vous devez entrer une adresse email valide";
+        break;
+        case "date":
+            info = "Veuillez saisir une date dans les critères demandées";
+        break;
+        case "number":
+            info = "Veuillez saisir une valeur numérique";
+        break;
+        case "radio":
+            info = "Veuillez sélectionné une ville";
+        break;
+        case "checkbox":
+            info = "Veuillez accepter les conditions d'utilisation";
+        break;
+        default:
+              console.log('type non trouvé');
+    } 
+
+    return info;
+}
 
 // choice of condition of check function
 function conditionOfCheck(condition) {// put the negative condition
@@ -68,7 +118,11 @@ function check(e) {
               console.log('Erreur de condition');
     }
 
-    console.log(result)
+    if(result) {
+        element.parentNode.setAttribute("data-error-visible", false);
+    } else {
+        element.parentNode.setAttribute("data-error-visible", true);
+    }
 
     return result;
 }
